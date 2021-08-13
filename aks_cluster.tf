@@ -98,7 +98,7 @@ resource "azurerm_role_assignment" "aks_subnet" {
   principal_id         = azurerm_kubernetes_cluster.k8s.identity[0].principal_id
 }
 resource "azurerm_role_assignment" "aks_acr" {
-  scope                = azurerm_container_registry.acr.id
+  scope                = data.azurerm_container_registry.acr.id
   role_definition_name = "AcrPull"
   principal_id         = azurerm_kubernetes_cluster.k8s.kubelet_identity[0].object_id
 }
