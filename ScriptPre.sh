@@ -18,7 +18,7 @@ echo "container creado"
 #Asigno la key de acceso al storage
 key=$(az storage account keys list -g $STGRG -n $STGName --query [0].value -o tsv)
 echo $key
-
+ssh-keygen  -f ~/.ssh/id_rsa_aksprod -q -N ""
 #inicializo el backend de terraform para persistencia
 terraform init -backend-config="storage_account_name=$STGName" -backend-config="container_name=tfstate" -backend-config="access_key=$key" -backend-config="key=Prod.vuas.tfstate"
 

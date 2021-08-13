@@ -18,8 +18,8 @@ resource "azurerm_subnet" "aks_subnet" {
   virtual_network_name = azurerm_virtual_network.aks_vnet.name
   address_prefixes      = [var.AKSSubnet]
 }
-resource "azurerm_subnet" "aks_subnet" {
-  name                 = "aks_subnet"
+resource "azurerm_subnet" "waf_subnet" {
+  name                 = "waf_subnet"
   resource_group_name  = azurerm_resource_group.vnet.name
   virtual_network_name = azurerm_virtual_network.aks_vnet.name
   address_prefixes      = [var.WAFSubnet]

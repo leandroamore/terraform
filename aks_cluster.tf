@@ -9,7 +9,7 @@ resource "random_id" "log_analytics_workspace_name_suffix" {
 }
 
 data "azuread_group" "k8s" {
-  name = var.aad_group_name
+  display_name = var.aad_group_name
 }
 resource "azurerm_log_analytics_workspace" "oms" {
     
@@ -70,9 +70,11 @@ resource "azurerm_kubernetes_cluster" "k8s" {
         vm_size                    = "Standard_DS2_v2"
         vnet_subnet_id             = azurerm_subnet.aks_subnet.id
         type                       = "VirtualMachineScaleSets"
+        availability_zones = ["1", "2", "3"]
         enable_auto_scaling = true
         min_count           = var.min_count
         max_count           = var.max_count
+        max_pods           = 150
     }
 
     addon_profile {
@@ -80,15 +82,10 @@ resource "azurerm_kubernetes_cluster" "k8s" {
         enabled                    = true
         log_analytics_workspace_id = azurerm_log_analytics_workspace.oms.id
         }
-    kube_dashboard {
-      enabled                      = true
-    }
     }
 
     tags                           = var.tags
-     lifecycle {
-    prevent_destroy = true
-  }
+
 }
 resource "azurerm_role_assignment" "aks" {
   scope                = azurerm_kubernetes_cluster.k8s.id
@@ -105,3 +102,12 @@ resource "azurerm_role_assignment" "aks_acr" {
   role_definition_name = "AcrPull"
   principal_id         = azurerm_kubernetes_cluster.k8s.kubelet_identity[0].object_id
 }
+
+resource "azurerm_role_assignment" "ra3" {
+    scope                = azurerm_application_gateway.AppGtw.id
+    role_definition_name = "Contributor"
+    principal_id         = azurerm_kubernetes_cluster.k8s.kubelet_identity[0].object_id
+    #depends_on           = [azurerm_user_assigned_identity.testIdentity, azurerm_application_gateway.network]
+}
+
+
