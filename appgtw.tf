@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "AppGtw" {
 }
 
 resource "azurerm_public_ip" "AppGtw" {
-    name                         = "AppGtwIP1"
+    name                         = "${var.prefix}${var.environment}appgtwIP"
     location                     = azurerm_resource_group.AppGtw.location
     resource_group_name          = azurerm_resource_group.AppGtw.name
     allocation_method            = "Static"
@@ -14,7 +14,7 @@ resource "azurerm_public_ip" "AppGtw" {
     tags = var.tags
 }
 resource "azurerm_application_gateway" "AppGtw" {
-    name                = var.app_gateway_name
+    name                = "${var.prefix}${var.environment}appgtw"
     resource_group_name = azurerm_resource_group.AppGtw.name
     location            = azurerm_resource_group.AppGtw.location
 

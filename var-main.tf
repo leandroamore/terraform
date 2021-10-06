@@ -10,7 +10,7 @@ variable "environment" {
 }
 variable "prefix" {
     type        = string
-    default     = "VuaS"
+    default     = "vuas-us"
 }
 
 variable tags {
@@ -19,4 +19,5 @@ variable tags {
         Environment = "prod"
         Deployment = "VuaS as a Service"
     }
-    }
+}
+
