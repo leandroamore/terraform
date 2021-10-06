@@ -74,18 +74,29 @@ resource "azurerm_kubernetes_cluster" "k8s" {
         enable_auto_scaling = true
         min_count           = var.min_count
         max_count           = var.max_count
-        max_pods           = 150
+        max_pods            = 30
     }
 
+}
     addon_profile {
         oms_agent {
         enabled                    = true
         log_analytics_workspace_id = azurerm_log_analytics_workspace.oms.id
         }
-    }
+   
 
     tags                           = var.tags
+ }
 
+resource "kubernetes_namespace" "clientes" {
+  metadata {
+     name = "Clientes"
+  }
+}
+resource "kubernetes_namespace" "multitenant" {
+  metadata {
+     name = "Multitenant"
+  }
 }
 resource "azurerm_role_assignment" "aks" {
   scope                = azurerm_kubernetes_cluster.k8s.id
