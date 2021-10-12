@@ -1,8 +1,8 @@
 #!/bin/bash
 LOCATION=eastus #region de azure donde crear los recursos
-STGRG=VUAS_TF #resource group para el storage
-STGName=vuasprodterraform  #nombre del storage
-
+STGRG=VUAS_New_TF #resource group para el storage
+STGName=vuasnewprodterraform  #nombre del storage
+Key=FVNQ2cPMzFwdCRdYfs8KJl5cKdKpNpavYS0nxijM84JjW+xInE4w/19MhnrBaKm8Ke7rKaxYAwTNx9o9818XHw==
 
 
 #Crear Resource Groups 

@@ -1,5 +1,5 @@
 #vinculo AKS con AppGateway
 #ponerlo en tf
 
-appgwId=$(az network application-gateway show -n appgtwingress -g VuaS_prod_aks -o tsv --query "id")
-az aks enable-addons -n VuaSprodaks -g VuaS_prod_aks -a ingress-appgw --appgw-id $appgwId
+appgwId=$(az network application-gateway show -n vuas-usprodappgtw -g vuas-us_prod_aks -o tsv --query "id")
+az aks enable-addons -n vuas-usprodaks -g vuas-us_prod_aks -a ingress-appgw --appgw-id $appgwId

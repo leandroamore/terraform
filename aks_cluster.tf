@@ -33,12 +33,14 @@ resource "azurerm_log_analytics_solution" "oms" {
     }
 }
 resource "azurerm_kubernetes_cluster" "k8s" {
+
     name                           = "${var.prefix}${var.environment}aks"
     kubernetes_version             = var.k8s_Version
     location                       = azurerm_resource_group.k8s.location
     resource_group_name            = azurerm_resource_group.k8s.name
     dns_prefix                     = "${var.prefix}${var.environment}aks"
-
+    tags                           = var.tags
+    automatic_channel_upgrade      = "patch"
   linux_profile {
     admin_username                 = var.admin_username
     ssh_key {
@@ -77,7 +79,6 @@ resource "azurerm_kubernetes_cluster" "k8s" {
         max_pods            = 30
     }
 
-}
     addon_profile {
         oms_agent {
         enabled                    = true
@@ -85,19 +86,10 @@ resource "azurerm_kubernetes_cluster" "k8s" {
         }
    
 
-    tags                           = var.tags
- }
+    
+  }
+}
 
-resource "kubernetes_namespace" "clientes" {
-  metadata {
-     name = "Clientes"
-  }
-}
-resource "kubernetes_namespace" "multitenant" {
-  metadata {
-     name = "Multitenant"
-  }
-}
 resource "azurerm_role_assignment" "aks" {
   scope                = azurerm_kubernetes_cluster.k8s.id
   role_definition_name = "Monitoring Metrics Publisher"
